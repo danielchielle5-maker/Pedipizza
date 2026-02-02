@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Pizzaria do Bairro</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>🍕 Pizzaria do Bairro</h1>
+
+<div class="pizza">
+  <h3>Calabresa</h3>
+  <select id="tamanho">
+    <option value="P">Pequena</option>
+    <option value="M">Média</option>
+    <option value="G">Grande</option>
+  </select>
+
+  <button onclick="pedir()">Pedir</button>
+</div>
+
+<script>
+function pedir() {
+  const tamanho = document.getElementById('tamanho').value;
+  const msg = `Olá! Quero uma pizza de Calabresa tamanho ${tamanho}.`;
+  const telefone = '5599999999999'; // seu WhatsApp
+  const url = `https://wa.me/${telefone}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}
+</script>
+
+</body>
+</html>
