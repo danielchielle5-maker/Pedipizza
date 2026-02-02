@@ -1,34 +1,108 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Pizzaria do Bairro</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Pedi tua pizza</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .pizza {
+      background: #fff;
+      padding: 20px;
+      max-width: 320px;
+      margin: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    .preco {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .pix {
+      margin-top: 15px;
+      font-size: 14px;
+      background: #f1f1f1;
+      padding: 10px;
+      border-radius: 6px;
+    }
+
+    button {
+      background: #25d366;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+  </style>
 </head>
 <body>
 
-<h1>🍕 Pizzaria do Bairro</h1>
+<h1>🍕 Pedi tua pizza</h1>
 
 <div class="pizza">
-  <h3>Calabresa</h3>
-  <select id="tamanho">
-    <option value="P">Pequena</option>
-    <option value="M">Média</option>
-    <option value="G">Grande</option>
+  <label><strong>Sabor (30cm)</strong></label>
+  <select id="sabor">
+    <option value="Calabresa">Calabresa</option>
+    <option value="Filé com Catupiry">Filé com Catupiry</option>
+    <option value="4 Queijos">4 Queijos</option>
   </select>
 
-  <button onclick="pedir()">Pedir</button>
+  <label><strong>Borda</strong></label>
+  <select id="borda" onchange="atualizarPreco()">
+    <option value="sem">Sem borda</option>
+    <option value="com">Com borda de Catupiry</option>
+  </select>
+
+  <div class="preco" id="preco">Valor: R$ 30,00</div>
+
+  <div class="pix">
+    💸 <strong>Pagamento via Pix</strong><br>
+    Chave Pix: <br>
+    <strong>55984210708</strong>
+  </div>
+
+  <button onclick="pedir()">Pedir pelo WhatsApp</button>
 </div>
 
 <script>
-function pedir() {
-  const tamanho = document.getElementById('tamanho').value;
-  const msg = `Olá! Quero uma pizza de Calabresa tamanho ${tamanho}.`;
-  const telefone = '5599999999999'; // seu WhatsApp
-  const url = `https://wa.me/${telefone}?text=${encodeURIComponent(msg)}`;
-  window.open(url, '_blank');
+function atualizarPreco() {
+  const borda = document.getElementById('borda').value;
+  const preco = borda === 'com' ? 35 : 30;
+  document.getElementById('preco').innerText = `Valor: R$ ${preco},00`;
 }
-</script>
 
-</body>
-</html>
+function pedir() {
+  const sabor = document.getElementById('sabor').value;
+  const borda = document.getElementById('borda').value;
+  const preco = borda === 'com' ? 35 : 30;
+
+  const textoBorda = borda === 'com' ? 'com borda de Catupiry' : 'sem borda';
+
+  const mensagem =
+    `Olá! Quero uma pizza de ${sabor} (30cm), ${textoBorda}.\n` +
+    `Valor: R$ ${preco},00\n` +
+    `Pagamento via Pix.\n` +
+
