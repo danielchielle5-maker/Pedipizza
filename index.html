@@ -2,115 +2,150 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pedi tua pizza</title>
 
 <style>
 body {
   font-family: Arial, sans-serif;
   background: #f4f4f4;
-  padding: 20px;
-  text-align: center;
+  margin: 0;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
 }
 
 h1 {
-  margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 15px;
 }
 
 .card {
   background: #fff;
-  padding: 20px;
-  max-width: 330px;
-  margin: auto;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 360px;
+  padding: 18px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.aviso {
+  background: #fff3cd;
+  color: #856404;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 15px;
 }
 
 .section {
-  text-align: left;
   margin-top: 15px;
+}
+
+.section strong {
+  display: block;
+  margin-bottom: 8px;
 }
 
 .section label {
-  display: block;
-  margin: 6px 0;
-}
-
-select, button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
   font-size: 16px;
 }
 
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+select {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
 .preco {
-  margin-top: 15px;
-  font-size: 18px;
+  margin-top: 18px;
+  font-size: 22px;
   font-weight: bold;
   text-align: center;
 }
 
 .pix {
   background: #f1f1f1;
-  padding: 10px;
+  padding: 12px;
   margin-top: 15px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
+  text-align: center;
 }
 
 button {
-  margin-top: 15px;
+  width: 100%;
+  margin-top: 18px;
   background: #25d366;
   color: #fff;
   border: none;
-  border-radius: 6px;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
 }
 
-button:hover {
-  opacity: 0.9;
+button:active {
+  opacity: 0.85;
 }
 </style>
 </head>
 
 <body>
 
-<h1>🍕 Pedi tua pizza</h1>
+<div>
+  <h1>🍕 Pedi tua pizza</h1>
 
   <div class="card">
 
-  <div class="aviso">
-  ℹ️ Tamanho único de 30cm rende 8 fatias
-</div>
-    
-  <!-- SABORES -->
-  <div class="section">
-    <strong>Selecione até 2 sabores</strong>
+    <div class="aviso">
+      ℹ️ Tamanho único de 30cm rende 8 fatias
+    </div>
 
-    <label><input type="checkbox" name="sabor" value="Calabresa"> Calabresa</label>
-    <label><input type="checkbox" name="sabor" value="Filé com Catupiry"> Filé com Catupiry</label>
-    <label><input type="checkbox" name="sabor" value="4 Queijos"> 4 Queijos</label>
+    <!-- SABORES -->
+    <div class="section">
+      <strong>Selecione até 2 sabores</strong>
+
+      <label><input type="checkbox" name="sabor" value="Calabresa"> Calabresa</label>
+      <label><input type="checkbox" name="sabor" value="Filé com Catupiry"> Filé com Catupiry</label>
+      <label><input type="checkbox" name="sabor" value="4 Queijos"> 4 Queijos</label>
+    </div>
+
+    <!-- BORDA -->
+    <div class="section">
+      <strong>Borda</strong>
+      <select id="borda" onchange="atualizarPreco()">
+        <option value="sem">Sem borda</option>
+        <option value="com">Com borda de Catupiry + R$5,00</option>
+      </select>
+    </div>
+
+    <!-- PREÇO -->
+    <div class="preco" id="preco">Valor: R$ 30,00</div>
+
+    <!-- PIX -->
+    <div class="pix">
+      💸 <strong>Pagamento via Pix</strong><br>
+      Chave Pix:<br>
+      <strong>55984210708</strong>
+    </div>
+
+    <button onclick="pedir()">Pedir pelo WhatsApp</button>
+
   </div>
-
-  <!-- BORDA -->
-  <div class="section">
-    <strong>Borda</strong>
-    <select id="borda" onchange="atualizarPreco()">
-      <option value="sem">Sem borda</option>
-      <option value="com">Com borda de Catupiry + R$5,00</option>
-    </select>
-  </div>
-
-  <!-- PREÇO -->
-  <div class="preco" id="preco">Valor: R$ 30,00</div>
-
-  <!-- PIX -->
-  <div class="pix">
-    💸 <strong>Pagamento via Pix</strong><br>
-    Chave Pix:<br>
-    <strong>55984210708</strong>
-  </div>
-
-  <button onclick="pedir()">Pedir pelo WhatsApp</button>
 </div>
 
 <script>
