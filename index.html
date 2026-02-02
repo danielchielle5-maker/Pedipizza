@@ -1,86 +1,108 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Pedi tua pizza</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f8f8f8;
-      padding: 20px;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<title>Pedi tua pizza</title>
 
-    h1 {
-      margin-bottom: 20px;
-    }
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  padding: 20px;
+  text-align: center;
+}
 
-    .pizza {
-      background: #fff;
-      padding: 20px;
-      max-width: 320px;
-      margin: auto;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
+h1 {
+  margin-bottom: 20px;
+}
 
-    select, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      font-size: 16px;
-    }
+.card {
+  background: #fff;
+  padding: 20px;
+  max-width: 330px;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
 
-    .preco {
-      margin-top: 15px;
-      font-weight: bold;
-      font-size: 18px;
-    }
+.section {
+  text-align: left;
+  margin-top: 15px;
+}
 
-    .pix {
-      margin-top: 15px;
-      font-size: 14px;
-      background: #f1f1f1;
-      padding: 10px;
-      border-radius: 6px;
-    }
+.section label {
+  display: block;
+  margin: 6px 0;
+}
 
-    button {
-      background: #25d366;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
+select, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 16px;
+}
 
-    button:hover {
-      opacity: 0.9;
-    }
-  </style>
+.preco {
+  margin-top: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.pix {
+  background: #f1f1f1;
+  padding: 10px;
+  margin-top: 15px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+button {
+  margin-top: 15px;
+  background: #25d366;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+</style>
 </head>
+
 <body>
 
 <h1>🍕 Pedi tua pizza</h1>
 
-<div class="pizza">
-  <label><strong>Sabor (30cm)</strong></label>
-  <select id="sabor">
-    <option value="Calabresa">Calabresa</option>
-    <option value="Filé com Catupiry">Filé com Catupiry</option>
-    <option value="4 Queijos">4 Queijos</option>
-  </select>
+<div class="card">
 
-  <label><strong>Borda</strong></label>
-  <select id="borda" onchange="atualizarPreco()">
-    <option value="sem">Sem borda</option>
-    <option value="com">Com borda de Catupiry</option>
-  </select>
+  <!-- SABORES -->
+  <div class="section">
+    <strong>Sabor (30cm) – até 2</strong>
 
+    <label><input type="checkbox" name="sabor" value="Calabresa"> Calabresa</label>
+    <label><input type="checkbox" name="sabor" value="Filé com Catupiry"> Filé com Catupiry</label>
+    <label><input type="checkbox" name="sabor" value="4 Queijos"> 4 Queijos</label>
+  </div>
+
+  <!-- BORDA -->
+  <div class="section">
+    <strong>Borda</strong>
+    <select id="borda" onchange="atualizarPreco()">
+      <option value="sem">Sem borda</option>
+      <option value="com">Com borda de Catupiry</option>
+    </select>
+  </div>
+
+  <!-- PREÇO -->
   <div class="preco" id="preco">Valor: R$ 30,00</div>
 
+  <!-- PIX -->
   <div class="pix">
     💸 <strong>Pagamento via Pix</strong><br>
-    Chave Pix: <br>
+    Chave Pix:<br>
     <strong>55984210708</strong>
   </div>
 
@@ -90,19 +112,49 @@
 <script>
 function atualizarPreco() {
   const borda = document.getElementById('borda').value;
-  const preco = borda === 'com' ? 35 : 30;
-  document.getElementById('preco').innerText = `Valor: R$ ${preco},00`;
+  const valor = borda === 'com' ? 35 : 30;
+  document.getElementById('preco').innerText = `Valor: R$ ${valor},00`;
 }
 
+// limitar até 2 sabores
+document.querySelectorAll('input[name="sabor"]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    const selecionados = document.querySelectorAll('input[name="sabor"]:checked');
+    if (selecionados.length > 2) {
+      cb.checked = false;
+      alert('Você pode escolher no máximo 2 sabores.');
+    }
+  });
+});
+
 function pedir() {
-  const sabor = document.getElementById('sabor').value;
+  const saboresSelecionados = Array.from(
+    document.querySelectorAll('input[name="sabor"]:checked')
+  ).map(el => el.value);
+
+  if (saboresSelecionados.length === 0) {
+    alert('Escolha pelo menos 1 sabor.');
+    return;
+  }
+
   const borda = document.getElementById('borda').value;
   const preco = borda === 'com' ? 35 : 30;
-
   const textoBorda = borda === 'com' ? 'com borda de Catupiry' : 'sem borda';
 
   const mensagem =
-    `Olá! Quero uma pizza de ${sabor} (30cm), ${textoBorda}.\n` +
+    `Olá! Quero uma pizza 30cm.\n` +
+    `Sabores: ${saboresSelecionados.join(' / ')}\n` +
+    `Borda: ${textoBorda}\n` +
     `Valor: R$ ${preco},00\n` +
-    `Pagamento via Pix.\n` +
+    `Pagamento via Pix\n` +
+    `Chave Pix: 55984210708`;
 
+  const telefone = '5555984210708';
+  const url = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
+
+  window.open(url, '_blank');
+}
+</script>
+
+</body>
+</html>
